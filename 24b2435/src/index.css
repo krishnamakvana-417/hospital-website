@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-slate-800 antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-brand-300 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-brand-400;
+}
+
+.container-page {
+  @apply max-w-7xl mx-auto px-5 sm:px-8 lg:px-10;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-6 py-3 font-semibold text-white shadow-card transition-all hover:bg-brand-700 hover:shadow-cardHover active:scale-[0.98];
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 border-brand-600 bg-white px-6 py-3 font-semibold text-brand-600 transition-all hover:bg-brand-50 active:scale-[0.98];
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-semibold text-slate-600 transition-all hover:bg-slate-100;
+}
+
+.section-title {
+  @apply font-display text-3xl sm:text-4xl font-bold text-slate-900;
+}
+
+.section-eyebrow {
+  @apply inline-block rounded-full bg-brand-50 px-4 py-1 text-sm font-semibold text-brand-600 tracking-wide;
+}
+
+.card {
+  @apply rounded-2xl border border-slate-100 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-cardHover;
+}
+
+.input-field {
+  @apply w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition-colors focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-100;
+}
+
+.label-field {
+  @apply mb-1.5 block text-sm font-semibold text-slate-700;
+}
