@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+// In dev (npm run dev) with no .env, talk to the local Flask server on :5000.
+// In a production build with no VITE_API_URL set, use a relative path — this
+// is what makes the combined single-deployment setup work (Flask serves the
+// built frontend and the API from the same origin).
+const BASE_URL = import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? "http://localhost:5000" : "");
 
 const client = axios.create({
   baseURL: BASE_URL,

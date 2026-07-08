@@ -1,12 +1,15 @@
 import os
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from werkzeug.security import check_password_hash
 
 from database import get_db, init_db
 from auth import generate_token, token_required
 
-app = Flask(__name__)
+# Path to the built React app (created by `npm run build` inside ../24b2435)
+FRONTEND_DIST = os.path.join(os.path.dirname(__file__), "..", "24b2435", "dist")
+
+app = Flask(__name__, static_folder=None)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-change-in-production")
 CORS(app)
 
@@ -196,6 +199,28 @@ def login():
 @token_required
 def verify():
     return jsonify({"valid": True})
+
+
+# ---------------------------------------------------------------- serve frontend
+# Serves the built React app (24b2435/dist) for every non-API route, so that
+# client-side routing (React Router) works correctly on refresh/deep-links.
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve_frontend(path):
+    if path.startswith("api/"):
+        return jsonify({"error": "Not found"}), 404
+
+    full_path = os.path.join(FRONTEND_DIST, path)
+    if path and os.path.exists(full_path) and os.path.isfile(full_path):
+        return send_from_directory(FRONTEND_DIST, path)
+
+    index_path = os.path.join(FRONTEND_DIST, "index.html")
+    if os.path.exists(index_path):
+        return send_from_directory(FRONTEND_DIST, "index.html")
+
+    return jsonify({
+        "error": "Frontend build not found. Run 'npm run build' inside 24b2435/ first."
+    }), 404
 
 
 if __name__ == "__main__":
